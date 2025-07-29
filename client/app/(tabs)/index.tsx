@@ -13,8 +13,6 @@ export default function HomeScreen() {
 
   const handleContinue = () => {
     if (name && selectedGrade) {
-      // Kullanıcı bilgilerini kaydet (daha sonra kullanmak için)
-      // Şimdilik sadece yönlendirme yapıyoruz
       router.push('/selection' as any);
     }
   };
@@ -50,7 +48,7 @@ export default function HomeScreen() {
                 <TextInput
                   style={styles.textInput}
                   placeholder="Adınızı ve soyadınızı girin"
-                  placeholderTextColor="rgba(255,255,255,0.5)"
+                  placeholderTextColor="rgba(255,255,255,0.7)"
                   value={name}
                   onChangeText={setName}
                 />
@@ -64,18 +62,24 @@ export default function HomeScreen() {
                 {grades.map((grade) => (
                   <TouchableOpacity
                     key={grade}
-                    style={[
-                      styles.gradeButton,
-                      selectedGrade === grade && styles.selectedGradeButton
-                    ]}
+                    style={styles.gradeButtonOuter}
                     onPress={() => setSelectedGrade(grade)}
+                    activeOpacity={0.85}
                   >
-                    <Text style={[
-                      styles.gradeButtonText,
-                      selectedGrade === grade && styles.selectedGradeButtonText
-                    ]}>
-                      {grade}
-                    </Text>
+                    {selectedGrade === grade ? (
+                      <LinearGradient
+                        colors={['#667eea', '#764ba2']}
+                        style={styles.gradeButton}
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 1, y: 1 }}
+                      >
+                        <Text style={styles.selectedGradeButtonText}>{grade}</Text>
+                      </LinearGradient>
+                    ) : (
+                      <View style={styles.gradeButton}>
+                        <Text style={styles.gradeButtonText}>{grade}</Text>
+                      </View>
+                    )}
                   </TouchableOpacity>
                 ))}
               </View>
@@ -159,16 +163,16 @@ const styles = StyleSheet.create({
     lineHeight: 22,
   },
   formSection: {
-    backgroundColor: 'rgba(255,255,255,0.15)',
-    borderRadius: 24,
-    padding: 28,
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    borderRadius: 20,
+    padding: 24,
     borderWidth: 1,
     borderColor: 'rgba(255,255,255,0.2)',
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 10 },
-    shadowOpacity: 0.2,
-    shadowRadius: 20,
-    elevation: 15,
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.18,
+    shadowRadius: 16,
+    elevation: 12,
   },
   inputContainer: {
     marginBottom: 28,
@@ -183,15 +187,13 @@ const styles = StyleSheet.create({
     textShadowRadius: 2,
   },
   inputWrapper: {
-    backgroundColor: 'rgba(255,255,255,0.2)',
-    borderRadius: 16,
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.3)',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 6,
+    backgroundColor: 'rgba(255,255,255,0.12)',
+    borderRadius: 24,
+    borderWidth: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 0,
+    paddingVertical: 0,
   },
   textInput: {
     padding: 18,
@@ -205,38 +207,28 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     gap: 12,
   },
-  gradeButton: {
+  gradeButtonOuter: {
     width: (width - 120) / 2,
-    padding: 16,
-    backgroundColor: 'rgba(255,255,255,0.2)',
-    borderRadius: 16,
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.3)',
+    marginBottom: 12,
+    borderRadius: 24,
+  },
+  gradeButton: {
+    backgroundColor: 'rgba(255,255,255,0.12)',
+    borderRadius: 24,
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 6,
-  },
-  selectedGradeButton: {
-    backgroundColor: 'rgba(255,107,107,0.8)',
-    borderColor: 'rgba(255,107,107,0.9)',
-    shadowColor: '#ff6b6b',
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.3,
-    shadowRadius: 12,
-    elevation: 10,
+    padding: 18,
   },
   gradeButtonText: {
     fontSize: 14,
-    color: '#ffffff',
+    color: '#fff',
     fontWeight: '600',
   },
   selectedGradeButtonText: {
     color: '#fff',
     fontWeight: 'bold',
+    fontSize: 14,
+    letterSpacing: 0.5,
   },
   continueButtonContainer: {
     marginTop: 24,

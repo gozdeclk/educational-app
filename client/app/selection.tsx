@@ -69,7 +69,7 @@ export default function SelectionScreen() {
               onPress={() => handleOptionSelect('ai-error-hunter')}
             >
               <LinearGradient
-                colors={['rgba(255,107,107,0.3)', 'rgba(238,90,36,0.2)']}
+                colors={['rgba(255,255,255,0.2)', 'rgba(255,255,255,0.1)']}
                 style={styles.optionGradient}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 1 }}
@@ -93,14 +93,9 @@ export default function SelectionScreen() {
             style={styles.backButtonContainer}
             onPress={() => router.back()}
           >
-            <LinearGradient
-              colors={['rgba(255,255,255,0.2)', 'rgba(255,255,255,0.1)']}
-              style={styles.backButton}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 1 }}
-            >
+            <View style={styles.backButton}>
               <Text style={styles.backButtonText}>← Geri Dön</Text>
-            </LinearGradient>
+            </View>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -228,10 +223,16 @@ const styles = StyleSheet.create({
     padding: 16,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: 'rgba(255,255,255,0.22)',
+    borderRadius: 16,
   },
   backButtonText: {
     color: '#fff',
     fontSize: 16,
     fontWeight: '600',
+    textShadowColor: 'rgba(0,0,0,0.18)',
+    textShadowOffset: { width: 0, height: 0 },
+    textShadowRadius: 2,
+    lineHeight: 20,
   },
 }); 
