@@ -63,7 +63,7 @@ export default function HomeScreen() {
                   <TouchableOpacity
                     key={grade}
                     style={styles.gradeButtonOuter}
-                    onPress={() => setSelectedGrade(grade)}
+                    onPress={() => setSelectedGrade(selectedGrade === grade ? '' : grade)}
                     activeOpacity={0.85}
                   >
                     {selectedGrade === grade ? (
@@ -91,19 +91,11 @@ export default function HomeScreen() {
               disabled={!name || !selectedGrade}
               onPress={handleContinue}
             >
-              <LinearGradient
-                colors={(!name || !selectedGrade) 
-                  ? ['rgba(255,255,255,0.3)', 'rgba(255,255,255,0.1)'] 
-                  : ['#ff6b6b', '#ee5a24']
-                }
-                style={styles.continueButton}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 1 }}
-              >
+              <View style={[styles.continueButton, (!name || !selectedGrade) && styles.continueButtonDisabled]}>
                 <Text style={styles.continueButtonText}>
                   {(!name || !selectedGrade) ? 'Bilgileri Girin' : 'Devam Et'}
                 </Text>
-              </LinearGradient>
+              </View>
             </TouchableOpacity>
           </View>
         </View>
@@ -232,18 +224,20 @@ const styles = StyleSheet.create({
   },
   continueButtonContainer: {
     marginTop: 24,
-    borderRadius: 20,
+    borderRadius: 24,
     overflow: 'hidden',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.3,
-    shadowRadius: 12,
-    elevation: 10,
+    // shadow ve elevation kaldırıldı
   },
   continueButton: {
-    padding: 20,
+    padding: 18,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: 'rgba(255,255,255,0.12)',
+    borderRadius: 24,
+    // shadow yok
+  },
+  continueButtonDisabled: {
+    opacity: 0.7,
   },
   continueButtonText: {
     color: '#fff',

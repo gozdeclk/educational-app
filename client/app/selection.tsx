@@ -213,18 +213,15 @@ const styles = StyleSheet.create({
   backButtonContainer: {
     borderRadius: 16,
     overflow: 'hidden',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 8,
-    elevation: 6,
+    // shadow ve elevation kaldırıldı
   },
   backButton: {
     padding: 16,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'rgba(255,255,255,0.22)',
-    borderRadius: 16,
+    backgroundColor: 'rgba(255,255,255,0.12)',
+    borderRadius: 24,
+    // shadow yok
   },
   backButtonText: {
     color: '#fff',
