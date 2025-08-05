@@ -13,6 +13,9 @@ export default function HomeScreen() {
 
   const handleContinue = () => {
     if (name && selectedGrade) {
+      // Bilgileri kaydet ve seçim sayfasına yönlendir
+      // Burada gerçek uygulamada AsyncStorage veya başka bir state management kullanılabilir
+      console.log('Kullanıcı bilgileri:', { name, selectedGrade });
       router.push('/selection' as any);
     }
   };
@@ -32,10 +35,10 @@ export default function HomeScreen() {
               <Text style={styles.icon}>🎓</Text>
             </View>
             <Text style={styles.headerText}>
-              Eğitim Yolculuğuna Hoş Geldin!
+              Eğitim Uygulamasına Hoş Geldin!
             </Text>
             <Text style={styles.subHeaderText}>
-              Sana özel içerikler için bilgilerini gir
+              Kişiselleştirilmiş deneyim için bilgilerini gir ve öğrenme araçlarını keşfet
             </Text>
           </View>
           

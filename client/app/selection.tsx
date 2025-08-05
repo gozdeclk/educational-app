@@ -1,8 +1,6 @@
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
-
-const { width, height } = Dimensions.get('window');
 
 export default function SelectionScreen() {
   const handleOptionSelect = (option: string) => {
@@ -30,10 +28,10 @@ export default function SelectionScreen() {
               <Text style={styles.icon}>🚀</Text>
             </View>
             <Text style={styles.headerText}>
-              Nereden İlerlemek İstersin?
+              Öğrenme Araçlarını Keşfet!
             </Text>
             <Text style={styles.subHeaderText}>
-              Senin için hazırladığımız özel öğrenme araçlarından birini seç
+              Senin için hazırladığımız özel öğrenme araçlarından istediğini seç ve başla
             </Text>
           </View>
           
@@ -86,15 +84,17 @@ export default function SelectionScreen() {
                 </View>
               </LinearGradient>
             </TouchableOpacity>
+
+
           </View>
 
-          {/* Back Button */}
+          {/* Ana Uygulamaya Dön Butonu */}
           <TouchableOpacity 
             style={styles.backButtonContainer}
-            onPress={() => router.back()}
+            onPress={() => router.push('/(tabs)' as any)}
           >
             <View style={styles.backButton}>
-              <Text style={styles.backButtonText}>← Geri Dön</Text>
+              <Text style={styles.backButtonText}>🏠 Ana Sayfaya Dön</Text>
             </View>
           </TouchableOpacity>
         </View>
