@@ -1,22 +1,68 @@
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { router } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const { width } = Dimensions.get('window');
 
 export default function HomeScreen() {
   const [name, setName] = useState('');
   const [selectedGrade, setSelectedGrade] = useState('');
+  const [userName, setUserName] = useState('');
+  const [hasProfile, setHasProfile] = useState(false);
 
   const grades = ['5. Sınıf', '6. Sınıf', '7. Sınıf', '8. Sınıf', '9. Sınıf', '10. Sınıf', '11. Sınıf', '12. Sınıf'];
 
-  const handleContinue = () => {
+  useEffect(() => {
+    loadUserData();
+  }, []);
+
+  const loadUserData = async () => {
+    try {
+      const savedUserData = await AsyncStorage.getItem('userData');
+      const savedProfileData = await AsyncStorage.getItem('profileData');
+      
+      if (savedUserData) {
+        const parsedData = JSON.parse(savedUserData);
+        
+        // Profil bilgileri girilmiş mi kontrol et
+        if (savedProfileData) {
+          const profileData = JSON.parse(savedProfileData);
+          setUserName(profileData.name || 'Kullanıcı');
+          setHasProfile(true);
+          // Mevcut bilgileri form'a yükle
+          setName(profileData.name || '');
+          setSelectedGrade(profileData.grade || '');
+        } else {
+          // Profil bilgileri girilmemişse e-posta ile selamla
+          const emailName = parsedData.email ? parsedData.email.split('@')[0] : 'Kullanıcı';
+          setUserName(emailName.charAt(0).toUpperCase() + emailName.slice(1));
+          setHasProfile(false);
+        }
+      }
+    } catch (error) {
+      console.error('Kullanıcı bilgileri yüklenemedi:', error);
+    }
+  };
+
+  const handleContinue = async () => {
     if (name && selectedGrade) {
-      // Bilgileri kaydet ve seçim sayfasına yönlendir
-      // Burada gerçek uygulamada AsyncStorage veya başka bir state management kullanılabilir
-      console.log('Kullanıcı bilgileri:', { name, selectedGrade });
-      router.push('/selection' as any);
+      // Profil bilgilerini kaydet
+      const profileData = {
+        name: name,
+        grade: selectedGrade,
+        createdAt: new Date().toISOString()
+      };
+      
+      try {
+        await AsyncStorage.setItem('profileData', JSON.stringify(profileData));
+        console.log('Profil bilgileri kaydedildi:', profileData);
+        router.push('/selection' as any);
+      } catch (error) {
+        console.error('Profil bilgileri kaydedilemedi:', error);
+        router.push('/selection' as any);
+      }
     }
   };
 
@@ -35,10 +81,13 @@ export default function HomeScreen() {
               <Text style={styles.icon}>🎓</Text>
             </View>
             <Text style={styles.headerText}>
-              Eğitim Uygulamasına Hoş Geldin!
+              {hasProfile ? `Merhaba ${userName}! 👋` : 'Hoş geldin! 👋'}
             </Text>
             <Text style={styles.subHeaderText}>
-              Kişiselleştirilmiş deneyim için bilgilerini gir ve öğrenme araçlarını keşfet
+              {hasProfile 
+                ? 'Öğrenme araçlarını keşfet ve gelişimini takip et' 
+                : 'Kişiselleştirilmiş deneyim için bilgilerini gir ve öğrenme araçlarını keşfet'
+              }
             </Text>
           </View>
           
@@ -100,6 +149,8 @@ export default function HomeScreen() {
                 </Text>
               </View>
             </TouchableOpacity>
+
+
           </View>
         </View>
       </ScrollView>
@@ -250,4 +301,5 @@ const styles = StyleSheet.create({
     textShadowOffset: { width: 0, height: 1 },
     textShadowRadius: 2,
   },
+
 });

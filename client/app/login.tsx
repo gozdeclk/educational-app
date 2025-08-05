@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Dimensions } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const { width } = Dimensions.get('window');
 
@@ -11,7 +12,7 @@ export default function LoginScreen() {
   const [isLogin, setIsLogin] = useState(true);
   const [error, setError] = useState('');
 
-  const handleAuth = () => {
+  const handleAuth = async () => {
     if (!email || !password) {
       setError('Lütfen e-posta ve şifre girin.');
       return;
@@ -33,10 +34,23 @@ export default function LoginScreen() {
     setError('');
     
     // Başarılı giriş/kayıt simülasyonu
-    setTimeout(() => {
+    setTimeout(async () => {
       if (isLogin) {
-        // Giriş başarılı - ana uygulama sayfasına yönlendir
-        router.push('/(tabs)' as any);
+        // Kullanıcı bilgilerini kaydet
+        const userData = {
+          email: email,
+          name: email.split('@')[0], // E-posta adresinden isim çıkar
+          loginTime: new Date().toISOString()
+        };
+        
+        try {
+          await AsyncStorage.setItem('userData', JSON.stringify(userData));
+          // Giriş başarılı - ana uygulama sayfasına yönlendir
+          router.push('/(tabs)' as any);
+        } catch (error) {
+          console.error('Kullanıcı bilgileri kaydedilemedi:', error);
+          router.push('/(tabs)' as any);
+        }
       } else {
         // Kayıt başarılı - giriş moduna geç
         setIsLogin(true);

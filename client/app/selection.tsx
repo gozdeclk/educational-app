@@ -88,15 +88,28 @@ export default function SelectionScreen() {
 
           </View>
 
-          {/* Ana Uygulamaya Dön Butonu */}
-          <TouchableOpacity 
-            style={styles.backButtonContainer}
-            onPress={() => router.push('/(tabs)' as any)}
-          >
-            <View style={styles.backButton}>
-              <Text style={styles.backButtonText}>🏠 Ana Sayfaya Dön</Text>
-            </View>
-          </TouchableOpacity>
+          {/* Navigation Buttons */}
+          <View style={styles.navigationButtons}>
+            <TouchableOpacity 
+              style={styles.navButton}
+              onPress={() => router.push('/(tabs)' as any)}
+            >
+              <View style={styles.navButtonContent}>
+                <Text style={styles.navButtonIcon}>🏠</Text>
+                <Text style={styles.navButtonText}>Home</Text>
+              </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity 
+              style={styles.navButton}
+              onPress={() => router.push('/(tabs)/profile' as any)}
+            >
+              <View style={styles.navButtonContent}>
+                <Text style={styles.navButtonIcon}>👤</Text>
+                <Text style={styles.navButtonText}>Profil</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
         </View>
       </ScrollView>
     </LinearGradient>
@@ -231,5 +244,35 @@ const styles = StyleSheet.create({
     textShadowOffset: { width: 0, height: 0 },
     textShadowRadius: 2,
     lineHeight: 20,
+  },
+  navigationButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    gap: 12,
+    marginTop: 20,
+  },
+  navButton: {
+    flex: 1,
+    backgroundColor: 'rgba(255,255,255,0.12)',
+    borderRadius: 16,
+    padding: 16,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.2)',
+  },
+  navButtonContent: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  navButtonIcon: {
+    fontSize: 24,
+    marginBottom: 8,
+  },
+  navButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '600',
+    textShadowColor: 'rgba(0,0,0,0.3)',
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 2,
   },
 }); 
